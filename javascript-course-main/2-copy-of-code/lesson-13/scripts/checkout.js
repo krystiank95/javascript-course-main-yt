@@ -5,6 +5,7 @@ import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 import {deliveryOptions} from '../data/deliveryOptions.js'
 
+function renderOrderSummary(){
 
 let cartSummaryHTML = '';
 
@@ -29,15 +30,14 @@ cart.forEach((cartItem)=>{
         deliveryOption = option;
         }
     });
-
-    
+    const today = dayjs();
+  
 
 
   cartSummaryHTML += `
     <div class="cart-item-container 
     js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date js-delivery-option">
-              Delivery date:
             </div>
 
             <div class="cart-item-details-grid">
@@ -131,13 +131,19 @@ document.querySelectorAll('.js-delete-link')
       const container = document.querySelector(
         `.js-cart-item-container-${productId}`);
       container.remove();
-    })
-  })
+    });
+  });
 
   document.querySelectorAll('.js-delivery-option')
     .forEach((element)=>{
       element.addEventListener('click', ()=>{
         const {productId, deliveryOptionId} = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
-    })
-  })
+
+      renderOrderSummary();
+    });
+  });
+}
+
+
+renderOrderSummary();
